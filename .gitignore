@@ -1,0 +1,23 @@
+﻿# Compiled files
+*.o
+*.obj
+*.exe
+*.dll
+*.pdb
+
+# Debug and build files
+*.ilk
+*.lib
+*.exp
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.log
+
+# Windows files
+Thumbs.db
+Desktop.ini
