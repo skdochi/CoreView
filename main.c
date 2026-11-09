@@ -128,15 +128,15 @@ int corePrintf(const char *format, ...)
             {
                 setColor(LABEL_COLOR);
                 fwrite(currentLine, 1,
-                       (size_t)(colon - currentLine + 1), stdout);
+                        (size_t)(colon - currentLine + 1), stdout);
                 setColor(VALUE_COLOR);
                 fwrite(colon + 1, 1,
-                       lineLength - (size_t)(colon + 1 - currentLine),
-                       stdout);
+                        lineLength - (size_t)(colon + 1 - currentLine),
+                        stdout);
             }
         }
         else if (strstr(currentLine, "====") != NULL ||
-                 strstr(currentLine, "----") != NULL)
+                    strstr(currentLine, "----") != NULL)
         {
             setColor(NORMAL_COLOR);
             fwrite(currentLine, 1, lineLength, stdout);
@@ -260,10 +260,10 @@ void displayRAM(void)
         double availableRAM = (double)memory.ullAvailPhys
                               / (1024.0 * 1024.0 * 1024.0);
 
-      
+
         double usedRAM = totalRAM - availableRAM;
 
-     
+
         DWORD usage = memory.dwMemoryLoad;
 
         printf(" Total RAM:     %.2f GB\n", totalRAM);
@@ -282,27 +282,27 @@ void displayUptime(void)
 
     ULONGLONG uptime = GetTickCount64();
 
-   
+
     ULONGLONG seconds = uptime / 1000;
 
-  
+
     ULONGLONG days = seconds / 86400;
 
-   
+
     seconds %= 86400;
 
 
     ULONGLONG hours = seconds / 3600;
 
-   
+
     seconds %= 3600;
 
-  
+
     ULONGLONG minutes = seconds / 60;
 
     printf(" System Uptime:\n");
     printf(" %llu Days, %llu Hours, %llu Minutes\n",
-           days, hours, minutes);
+            days, hours, minutes);
 }
 // Reads Windows version information from the Registry,
 // including the edition, version number, and build number
@@ -327,7 +327,7 @@ void displayWindowsVersion(void)
 
     if (result == ERROR_SUCCESS)
     {
-      
+
         bufferSize = sizeof(productName);
 
         if (RegQueryValueExA(
@@ -376,7 +376,7 @@ else
             printf(" Windows Version: Unavailable\n");
         }
 
-      
+
         bufferSize = sizeof(buildNumber);
 
         if (RegQueryValueExA(
@@ -404,10 +404,10 @@ void displayProcessorCores(void)
 {
     SYSTEM_INFO info;
 
-  
+
     GetSystemInfo(&info);
     printf(" Logical Processors: %lu\n",
-           (unsigned long)info.dwNumberOfProcessors);
+            (unsigned long)info.dwNumberOfProcessors);
 }
 // Enumerates available display devices and displays their GPU names
 void displayGPU(void)
@@ -429,12 +429,12 @@ void displayGPU(void)
 
         if (!(device.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER))
         {
-  
+
             if (strcmp(device.DeviceString, previousGPU) != 0)
             {
                 printf(" %s\n", device.DeviceString);
 
-             
+
                 strcpy(previousGPU, device.DeviceString);
 
                 found = 1;
@@ -485,7 +485,7 @@ void displayGPU_Memory(void)
         {
             if (!(description.Flags & DXGI_ADAPTER_FLAG_SOFTWARE))
             {
-              
+
                 WideCharToMultiByte(
                     CP_UTF8, 0,
                     description.Description, -1,
@@ -493,11 +493,11 @@ void displayGPU_Memory(void)
                     NULL, NULL
                 );
 
-             
+        
                 unsigned long long dedicated =
                     description.DedicatedVideoMemory / (1024ULL * 1024ULL);
 
-           
+        
                 unsigned long long shared =
                     description.SharedSystemMemory / (1024ULL * 1024ULL);
 
@@ -547,7 +547,7 @@ void displayDiskStorage(void)
                         &totalBytes,
                         &totalFreeBytes))
                 {
-                   
+                
                     double total = (double)totalBytes.QuadPart
                                    / (1024.0 * 1024.0 * 1024.0);
 
@@ -571,7 +571,7 @@ void displayNetwork(void)
 {
     ULONG bufferSize = 0;
 
-   
+
     GetAdaptersAddresses(
         AF_INET,
         GAA_FLAG_INCLUDE_GATEWAYS,
@@ -588,7 +588,7 @@ void displayNetwork(void)
         return;
     }
 
-   
+
     ULONG result = GetAdaptersAddresses(
         AF_INET,
         GAA_FLAG_INCLUDE_GATEWAYS,
@@ -609,10 +609,10 @@ void displayNetwork(void)
     int found = 0;
 
     for (IP_ADAPTER_ADDRESSES *adapter = adapters;
-         adapter != NULL;
-         adapter = adapter->Next)
+            adapter != NULL;
+            adapter = adapter->Next)
     {
-       
+
         if (adapter->OperStatus != IfOperStatusUp ||
             adapter->IfType == IF_TYPE_SOFTWARE_LOOPBACK)
             continue;
@@ -632,9 +632,9 @@ void displayNetwork(void)
         int hasIPv4 = 0;
 
         for (IP_ADAPTER_UNICAST_ADDRESS *address =
-                 adapter->FirstUnicastAddress;
-             address != NULL;
-             address = address->Next)
+                    adapter->FirstUnicastAddress;
+                address != NULL;
+            address = address->Next)
         {
             if (address->Address.lpSockaddr->sa_family == AF_INET)
             {
@@ -656,7 +656,7 @@ void displayNetwork(void)
         if (!hasIPv4)
             printf(" IPv4 Address: Unavailable\n");
 
-      
+    
         if (adapter->FirstGatewayAddress != NULL)
         {
             struct sockaddr_in *gateway =
@@ -731,14 +731,14 @@ void displayBattery(void)
         if (battery.BatteryLifePercent != 255)
         {
             printf(" Charge: %u%%\n",
-                   (unsigned int)battery.BatteryLifePercent);
+                    (unsigned int)battery.BatteryLifePercent);
         }
         else
         {
             printf(" Charge: Unavailable\n");
         }
 
-       
+
         if (battery.BatteryFlag & 8)
             printf(" Status: Charging\n");
         else if (battery.ACLineStatus == 1)
@@ -837,7 +837,7 @@ void displayMotherboard(void)
 
     BSTR nameSpace = SysAllocString(L"ROOT\\CIMV2");
 
- result = IWbemLocator_ConnectServer(
+    result = IWbemLocator_ConnectServer(
     locator,
     nameSpace,
     NULL,
@@ -868,7 +868,7 @@ void displayMotherboard(void)
     if (FAILED(result))
         goto cleanup;
 
-   
+
     board = getWmiObject(
         service,
         L"SELECT * FROM Win32_BaseBoard"
@@ -974,7 +974,7 @@ void displayPCInfo(void)
 
     BSTR nameSpace = SysAllocString(L"ROOT\\CIMV2");
 
- result = IWbemLocator_ConnectServer(
+    result = IWbemLocator_ConnectServer(
     locator,
     nameSpace,
     NULL,
@@ -1206,7 +1206,7 @@ void displayBatteryHardware(void)
 
     BSTR nameSpace = SysAllocString(L"ROOT\\WMI");
 
-   result = IWbemLocator_ConnectServer(
+    result = IWbemLocator_ConnectServer(
     locator,
     nameSpace,
     NULL,
@@ -1459,3 +1459,4 @@ int main(void)
 // use this command to rebuild after saving with CTRL + S : 
 // gcc main.c coreview_res.o -o CoreView.exe -ladvapi32 -ldxgi -ldxguid -lole32 -loleaut32 -lwbemuuid -liphlpapi -lws2_32
 // then shift + enter : .\CoreView.exe
+// testing GIT CHANGES
