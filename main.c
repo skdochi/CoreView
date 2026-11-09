@@ -1460,3 +1460,7 @@ int main(void)
 // gcc main.c coreview_res.o -o CoreView.exe -ladvapi32 -ldxgi -ldxguid -lole32 -loleaut32 -lwbemuuid -liphlpapi -lws2_32
 // then shift + enter : .\CoreView.exe
 // testing GIT CHANGES
+//How to update Source Code on Github :
+//git add .
+//git commit -m "*Put changes in here*"
+//git push
